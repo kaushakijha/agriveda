@@ -6,15 +6,15 @@ const sendMail = async (receiverEmailAddress, content, subject) => {
   let config = {
     service: "gmail",
     auth: {
-      user: process.env.GMAIL_ID,
-      pass: process.env.APP_PASSWORD,
+      user: process.env.GMAIL_ID,  // This will fetch the Gmail ID from your .env
+      pass: process.env.APP_PASSWORD,  // This will fetch the app password from your .env
     },
   };
 
   let transporter = nodemailer.createTransport(config);
 
   let message = {
-    from: process.env.EMAIL,
+    from: process.env.GMAIL_ID,  // Use the same email address as sender
     to: userEmail,
     subject: subject,
     html: content,

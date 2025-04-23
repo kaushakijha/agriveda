@@ -14,7 +14,10 @@ router.post(
 );
 
 // Get Product Data By Category
-router.get("/category/:category/:lng/:lat", productController.getProductDataByCategory);
+router.get(
+  "/category/:category/:lng/:lat",
+  productController.getProductDataByCategory
+);
 
 // Get Product Dashboard Data By Id
 router.get("/dashboard/:productId", productController.getProductDashboardData);
@@ -53,8 +56,10 @@ router.put(
   productController.updateProduct
 );
 
-// Get main product data by id 
-router.get("/mainProductData/:productId", productController.getMainProductDataById);
-
+// Get main product data by id
+router.get(
+  "/mainProductData/:productId",
+  productController.getMainProductDataById
+);
 
 module.exports = router;

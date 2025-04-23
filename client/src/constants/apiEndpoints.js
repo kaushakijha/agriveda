@@ -1,5 +1,11 @@
 // Products
-export const GET_PRODUCTS_BY_CATEGORY = (cat, page, products_per_page, lng, lat) =>
+export const GET_PRODUCTS_BY_CATEGORY = (
+  cat,
+  page,
+  products_per_page,
+  lng,
+  lat
+) =>
   `/products/category/${cat}/${lng}/${lat}?page=${page}&products_per_page=${products_per_page}`;
 export const GET_PRODUCT_DASHBOARD_DATA = (productId) =>
   `/products/dashboard/${productId}`;
@@ -7,8 +13,13 @@ export const GET_SELLER_PRODUCTS = `/products/seller`;
 export const UPDATE_PRODUCT = (productId) => `/products/${productId}`;
 export const ADD_PRODUCT = `/products`;
 export const DELETE_PRODUCT = (productId) => `/products/${productId}`;
+export const GET_PRODUCT_STOCKS_BY_ID = (productId) =>
+  `/products/stocks/${productId}`;
+export const GET_PRODUCT_DASHBOARD_DETAILS = (productId) =>
+  `/products/dashboard/${productId}/details`;
 export const GET_MAIN_PRODUCT_DASHBOARD_DATA = (productId) =>
-  `/products/mainProductData/${productId}`;
+  `/products/main/${productId}`;
+export const GET_PLATFORM_STATISTICS = `/products/statistics`;
 
 // Product Reviews
 export const GET_PRODUCT_REVIEWS = (productId, page, review_per_page) =>
@@ -26,7 +37,7 @@ export const ANSWER_FAQ = (faqId) => `/faqs/${faqId}`;
 // Auth
 export const SIGNUP = (type) => `/auth/${type}/signup`;
 export const LOGIN = (type) => `/auth/${type}/login`;
-export const VERIFY = (type, token) => `/auth/${type}/verify/${token}`;
+export const VERIFY = (type, token) => `/${type}/verify/${token}`;
 
 // Orders
 export const ORDER_PRODUCT = `/order`;
@@ -46,3 +57,6 @@ export const GRAPH = `/graph`;
 
 // Seller Orders
 export const GET_SELLER_ORDERS = `/order`;
+
+// Contact Form
+export const SUBMIT_CONTACT_FORM = "/contact/submit";

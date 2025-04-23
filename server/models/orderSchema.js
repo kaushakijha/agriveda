@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "users"
+    ref: "users",
   },
   orderQty: {
     type: Number,
@@ -17,18 +17,23 @@ const orderSchema = new mongoose.Schema({
   orderLocation: {
     type: {
       type: String,
-      enum: ['Point'],
-      default: 'Point'
+      enum: ["Point"],
+      default: "Point",
     },
     coordinates: {
-      type: [Number],  // [longitude, latitude]
-      required: true
-    }
+      type: [Number], // [longitude, latitude]
+      required: true,
+    },
   },
   sellerId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "sellers",
+  },
+  status: {
+    type: String,
+    enum: ["pending", "completed", "cancelled"],
+    default: "pending",
   },
   date: {
     type: Date,
@@ -36,6 +41,6 @@ const orderSchema = new mongoose.Schema({
   },
 });
 
-orderSchema.index({ sellerId: 1, location: "2dsphere"  });
+orderSchema.index({ sellerId: 1, location: "2dsphere" });
 
 module.exports = mongoose.model("orders", orderSchema);

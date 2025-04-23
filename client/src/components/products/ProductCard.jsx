@@ -2,6 +2,7 @@ import React from "react";
 import { addProductData } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { PiSmileySadLight } from "react-icons/pi";
 
 function ProductCard({ data, addOverlay = false }) {
   const dispatch = useDispatch();
@@ -12,21 +13,24 @@ function ProductCard({ data, addOverlay = false }) {
     navigate(`details/${data._id}`);
   };
 
+  const isOutOfStock = data.quantity === 0;
+
   return (
     <div
       className="w-full cursor-pointer"
       onClick={() => {
-        if (addOverlay) return;
+        if (addOverlay || isOutOfStock) return;
         goToDetailsPage();
       }}
     >
       <div className="relative h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-        {addOverlay && <div className="absolute inset-0 bg-black opacity-70 rounded-lg z-20 flex justify-center items-center">
-          <span className="text-white text-center text-sm px-4 md:text-base">
-            Not Within Delivery Radius
-          </span>
-
-        </div>}
+        {(addOverlay || isOutOfStock) && (
+          <div className="absolute inset-0 bg-black opacity-70 rounded-lg z-20 flex justify-center items-center">
+            <span className="text-white text-center text-sm px-4 md:text-base">
+              {addOverlay ? "Not Within Delivery Radius" : "Out of Stock"}
+            </span>
+          </div>
+        )}
 
         <div className="relative z-10">
           <img
@@ -48,6 +52,16 @@ function ProductCard({ data, addOverlay = false }) {
               Minimum Order Quantity: {data.minimumOrderQuantity}
               {data.measuringUnit}
             </h2>
+            <div className="flex items-center text-xs font-medium text-gray-400">
+              <span
+                className={`mr-2 h-2 w-2 rounded-full ${
+                  isOutOfStock ? "bg-red-500" : "bg-green-500"
+                }`}
+              ></span>
+              {isOutOfStock
+                ? "Out of Stock"
+                : `In Stock: ${data.quantity} ${data.measuringUnit}`}
+            </div>
             {/* <p className="leading-relaxed mb-3 font-semibold text-red-500">
             <i className="fa-solid fa-location-dot text-red-500 mr-1"></i>
             {data.location.latitude}, {data.location.longitude}
@@ -56,7 +70,6 @@ function ProductCard({ data, addOverlay = false }) {
         </div>
       </div>
     </div>
-
   );
 }
 

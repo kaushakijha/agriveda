@@ -1,7 +1,12 @@
 // import './App.css'
 import React, { useEffect, useMemo } from "react";
 import LoginAndSignup from "./pages/account";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Product from "./pages/products";
 import Navbar from "./components/navbar/Navbar";
 import SellerDashboard from "./pages/seller_dashboard";
@@ -20,6 +25,8 @@ import SellerProducts from "./pages/seller_dashboard/SellerProducts";
 import SellerOrderRequests from "./pages/seller_dashboard/SellerOrderRequests";
 import SellerFAQs from "./pages/seller_dashboard/SellerFAQs";
 import CropSenseAI from "./pages/seller_dashboard/CropSenseAI";
+import About from "./pages/about";
+import Contact from "./pages/contact";
 
 function App() {
   return (
@@ -32,44 +39,16 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/account/:type" element={<LoginAndSignup />} />
           <Route exact path="/:type/verify/:token" element={<Verify />} />
-          <Route
-            exact
-            path="/sellerdashboard"
-            element={<SellerDashboard />}
-          >
+          <Route exact path="/sellerdashboard" element={<SellerDashboard />}>
             <Route index element={<Navigate to="overview" replace />} />
-            <Route
-              exact
-              path="overview"
-              element={<SellerOverview />}
-            />
-            <Route
-              exact
-              path="products"
-              element={<SellerProducts />}
-            />
-            <Route
-              exact
-              path="orders"
-              element={<SellerOrderRequests />}
-            />
-            <Route
-              exact
-              path="faqs"
-              element={<SellerFAQs />}
-            />
-            <Route
-              exact
-              path="cropsense-ai"
-              element={<CropSenseAI />}
-            />
+            <Route exact path="overview" element={<SellerOverview />} />
+            <Route exact path="products" element={<SellerProducts />} />
+            <Route exact path="orders" element={<SellerOrderRequests />} />
+            <Route exact path="faqs" element={<SellerFAQs />} />
+            <Route exact path="cropsense-ai" element={<CropSenseAI />} />
           </Route>
 
-          <Route
-            exact
-            path="/map/:latitude/:longitude"
-            element={<ShowMap />}
-          />
+          <Route exact path="/map/:latitude/:longitude" element={<ShowMap />} />
           <Route
             exact
             path="/sellerdashboard/products/:operation"
@@ -83,6 +62,8 @@ function App() {
           />
           <Route exact path="/orders" element={<Order />} />
           <Route exact path="/map" element={<LeafletMap />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
         {/* </div> */}
       </Router>

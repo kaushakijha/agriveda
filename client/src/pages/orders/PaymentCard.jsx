@@ -27,15 +27,14 @@ const PaymentCard = ({
         productId: element._id,
         orderQty: element.qty,
         orderLocation: {
-          coordinates: [customerLongitude, customerLatitude]
+          coordinates: [customerLongitude, customerLatitude],
         },
         sellerId: element.sellerId,
       });
     }
 
-    // console.log("Order data:", orderData);
-
-    orderProduct(orderData);
+    // Wrap orderData array in an object with orders key
+    orderProduct({ orders: orderData });
   };
 
   return (
@@ -47,7 +46,7 @@ const PaymentCard = ({
         <div className="flex justify-center items-center space-x-4">
           <div className="w-8 h-8">
             <img
-            loading="lazy"
+              loading="lazy"
               className="w-full h-full"
               alt="logo"
               src="https://i.ibb.co/L8KSdNQ/image-3.png"
