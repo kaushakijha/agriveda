@@ -12,41 +12,55 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { notify } from "../../utils/helper/notification";
 import SellerOverview from "./SellerOverview";
 import { RiBardFill } from "react-icons/ri";
+import { FaLeaf } from "react-icons/fa";
 import CropSenseAI from "./CropSenseAI";
+import CropDiseaseAI from "./CropDiseaseAI";
 import { useCookies } from "react-cookie";
-
+import WeatherAI from "./WeatherAI";
 
 const links = [
   {
     text: "Dashboard",
     icon: <MdDashboard />,
     renderComponent: <SellerOverview />,
-    path: "overview"
+    path: "overview",
   },
   {
     text: "Your Products",
     icon: <FaProductHunt />,
     renderComponent: <SellerProducts />,
-    path: "products"
+    path: "products",
   },
   {
     text: "Your Orders",
     icon: <PiShoppingBagOpenFill />,
     renderComponent: <SellerOrderRequests />,
-    path: "orders"
+    path: "orders",
   },
   {
     text: "Your FAQs",
     icon: <FaQq />,
     renderComponent: <SellerFAQs />,
-    path: "faqs"
+    path: "faqs",
   },
   {
     text: "CropSense AI",
     icon: <RiBardFill />,
     renderComponent: <CropSenseAI />,
-    path: "cropsense-ai"
-  }
+    path: "cropsense-ai",
+  },
+  {
+    text: "CropDisease AI",
+    icon: <FaLeaf />,
+    renderComponent: <CropDiseaseAI />,
+    path: "cropdisease-ai",
+  },
+  {
+    text: "Weather AI",
+    icon: <FaLeaf />,
+    renderComponent: <WeatherAI />,
+    path: "weather-ai",
+  },
 ];
 
 const NewSellerDashboard = () => {
@@ -62,11 +76,13 @@ const NewSellerDashboard = () => {
               key={index}
               to={link.path}
               className={({ isActive }) =>
-                `w-full flex flex-row items-center gap-2 py-2 text-base justify-center md:justify-start ${isActive ? 'bg-rose-700 text-slate-100 shadow-md' : 'text-gray-700 hover:bg-gray-200'
+                `w-full flex flex-row items-center gap-2 py-2 text-base justify-center md:justify-start ${
+                  isActive
+                    ? "bg-rose-700 text-slate-100 shadow-md"
+                    : "text-gray-700 hover:bg-gray-200"
                 } px-4 font-medium rounded-md cursor-pointer transition duration-100 ease-in-out`
               }
             >
-
               <span className="text-lg">{link.icon}</span>
               <span className="hidden md:block">{link.text}</span>
             </NavLink>

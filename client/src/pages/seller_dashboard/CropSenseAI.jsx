@@ -1,13 +1,9 @@
 import React, { useState } from "react";
-import Heading from "../../components/heading/Heading";
-import Spinner from "../../components/loading/Spinner";
-import useAI from "../../hooks/ai/useAI";
-import InputTag from "../../components/input/InputTag";
+import { useAI } from "../../hooks/ai/useAI";
+import { notify } from "../../utils/helper/notification";
+import { motion } from "framer-motion";
 
 const CropSenseAI = () => {
-  const [prediction, setPrediction] = useState("");
-  const { predictCrops, isLoading } = useAI();
-
   const [formData, setFormData] = useState({
     soil: "",
     altitude: "",
@@ -15,117 +11,143 @@ const CropSenseAI = () => {
     humidity: "",
     rainfall: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [prediction, setPrediction] = useState("");
+  const { predictCrops } = useAI();
 
-  const cropPrediction = async () => {
-    let res = await predictCrops(formData);
-    setPrediction(res);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const result = await predictCrops(formData);
+      setPrediction(result);
+      notify("Crop prediction generated successfully", "success");
+    } catch (error) {
+      notify(error.message || "Failed to generate prediction", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   return (
-    <>
-      <Heading text={"Crop Predictor"} textAlign="text-left" />
-      <div className="container max-w-screen-lg mx-auto">
-        <div>
-          <div className="bg-white px-4">
-            <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-              <div className="lg:col-span-full">
-                <form
-                  className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-6"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    cropPrediction();
-                  }}
-                >
-                  <div className="md:col-span-6">
-                    <label htmlFor="soil">Soil</label>
-                    <select
-                      name="crop"
-                      required
-                      className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                      onChange={(e) => {
-                        setFormData({ ...formData, soil: e.target.value });
-                      }}
-                    >
-                      <option value="" selected disabled>
-                        Select Soil
-                      </option>
-                      <option value="sandy soil">Sandy Soil</option>
-                      <option value="clay soil">Clay Soil</option>
-                      <option value="silt soil">Silt Soil</option>
-                      <option value="peat soil">Peat Soil</option>
-                      <option value="chalk soil">Chalk Soil</option>
-                      <option value="loam soil">Loam Soil</option>
-                    </select>
-                  </div>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-6">
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-xl shadow-lg p-6 mb-8"
+        >
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">
+            CropSense AI Assistant
+          </h1>
+          <p className="text-gray-600 mb-6">
+            Get personalized crop recommendations based on your location's
+            conditions
+          </p>
 
-                  <div className="md:col-span-6">
-                    <InputTag
-                      label={"Altitude (in km)"}
-                      type={"number"}
-                      placeholder={"Between 0 and 10 (kilometers)"}
-                      value={formData.altitude}
-                      setFormData={setFormData}
-                      toUpdate={"altitude"}
-                    />
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <InputTag
-                      label={"Temperature (in °C)"}
-                      type={"number"}
-                      placeholder={"Between -50 and 50 (°Celsius)"}
-                      value={formData.temperature}
-                      setFormData={setFormData}
-                      toUpdate={"temperature"}
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <InputTag
-                      label={"Humidity (in %)"}
-                      type={"number"}
-                      placeholder={"Between 0 and 100 (%)"}
-                      value={formData.humidity}
-                      setFormData={setFormData}
-                      toUpdate={"humidity"}
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <InputTag
-                      label={"Rainfall (in mm)"}
-                      type={"number"}
-                      placeholder={"Between 0 and 1000 (mm)"}
-                      value={formData.rainfall}
-                      setFormData={setFormData}
-                      toUpdate={"rainfall"}
-                    />
-                  </div>
-
-                  <div className="md:col-span-6 my-2 text-right">
-                    <button
-                      type="submit"
-                      className="inline-flex text-white justify-center items-center bg-rose-700 hover:bg-rose-600text-white font-semibold py-2 px-4 rounded cursor-pointer"
-                    >
-                      {isLoading && <Spinner width="w-5" color="#ffffff" />}
-                      Predict Crops
-                    </button>
-                  </div>
-
-                  <div className="md:col-span-full">
-                    <textarea
-                      rows={12}
-                      className="border py-2 mt-1 rounded px-4 w-full bg-gray-50"
-                      placeholder="AI Prediction will be shown here. Note: This prediction may not be accurate. Please consult an expert for better results. Powered by Gemini AI."
-                      readOnly={true}
-                      value={prediction}
-                    />
-                  </div>
-                </form>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-700 mb-2">Soil Type</label>
+                <input
+                  type="text"
+                  name="soil"
+                  value={formData.soil}
+                  onChange={handleChange}
+                  placeholder="Enter soil type"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-2">Altitude (m)</label>
+                <input
+                  type="number"
+                  name="altitude"
+                  value={formData.altitude}
+                  onChange={handleChange}
+                  placeholder="Enter altitude"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-2">
+                  Temperature (°C)
+                </label>
+                <input
+                  type="number"
+                  name="temperature"
+                  value={formData.temperature}
+                  onChange={handleChange}
+                  placeholder="Enter temperature"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-2">Humidity (%)</label>
+                <input
+                  type="number"
+                  name="humidity"
+                  value={formData.humidity}
+                  onChange={handleChange}
+                  placeholder="Enter humidity"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-2">
+                  Rainfall (mm)
+                </label>
+                <input
+                  type="number"
+                  name="rainfall"
+                  value={formData.rainfall}
+                  onChange={handleChange}
+                  placeholder="Enter rainfall"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
               </div>
             </div>
-          </div>
-        </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300"
+            >
+              {loading ? (
+                <div className="flex justify-center">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : (
+                "Generate Prediction"
+              )}
+            </button>
+          </form>
+
+          {prediction && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mt-8 p-6 bg-green-50 rounded-xl"
+            >
+              <h2 className="text-xl font-semibold text-green-800 mb-4">
+                Recommended Crops
+              </h2>
+              <p className="text-gray-700 whitespace-pre-line">{prediction}</p>
+            </motion.div>
+          )}
+        </motion.div>
       </div>
-    </>
+    </div>
   );
 };
 

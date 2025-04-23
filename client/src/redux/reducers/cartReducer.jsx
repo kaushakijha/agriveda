@@ -11,46 +11,51 @@ let initialState = [];
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      const productToAdd = {
-        ...action.payload,
-        qty: 1,
-        currentPrice: action.payload.pricePerUnit,
-      };
-      return [...state, productToAdd];
+      // Check if product already exists in cart
+      const existingProduct = state.find(
+        (item) => item._id === action.payload._id
+      );
+      if (existingProduct) {
+        return state;
+      }
+      // Add new product with minimum order quantity
+      return [
+        ...state,
+        {
+          ...action.payload,
+          qty: action.payload.minQty,
+          currentPrice: action.payload.pricePerUnit * action.payload.minQty,
+        },
+      ];
     case REMOVE_ALL_FROM_CART:
       return [];
     case REMOVE_FROM_CART:
-      const productToRemove = action.payload;
-      const updatedCart = state.filter((item) => item._id !== productToRemove);
-      return updatedCart;
+      return state.filter((item) => item._id !== action.payload);
     case INC_QTY_IN_CART:
-      const productIdToIncQty = action.payload;
-      const updatedCartByIncQty = state.map((item) => {
-        // console.log(item);
-        if (item._id === productIdToIncQty && item.qty !== item.stocksLeft) {
+      return state.map((item) => {
+        if (item._id === action.payload) {
+          const newQty = item.qty + 1;
           return {
             ...item,
-            qty: item.qty + 1,
-            currentPrice: item.currentPrice + item.pricePerUnit,
+            qty: newQty,
+            currentPrice: item.pricePerUnit * newQty,
           };
         }
         return item;
       });
-      return updatedCartByIncQty;
     case DEC_QTY_IN_CART:
-      const productIdToDecQty = action.payload;
-      const updatedCartByDecQty = state.map((item) => {
-        // console.log(item);
-        if (item._id === productIdToDecQty && item.qty !== item.minQty) {
+      return state.map((item) => {
+        if (item._id === action.payload) {
+          // Don't allow quantity to go below minimum order quantity
+          const newQty = Math.max(item.minQty, item.qty - 1);
           return {
             ...item,
-            qty: item.qty - 1,
-            currentPrice: item.currentPrice - item.pricePerUnit,
+            qty: newQty,
+            currentPrice: item.pricePerUnit * newQty,
           };
         }
         return item;
       });
-      return updatedCartByDecQty;
     default:
       return state;
   }

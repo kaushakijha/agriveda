@@ -25,6 +25,8 @@ import SellerProducts from "./pages/seller_dashboard/SellerProducts";
 import SellerOrderRequests from "./pages/seller_dashboard/SellerOrderRequests";
 import SellerFAQs from "./pages/seller_dashboard/SellerFAQs";
 import CropSenseAI from "./pages/seller_dashboard/CropSenseAI";
+import CropDiseaseAI from "./pages/seller_dashboard/CropDiseaseAI";
+import WeatherAI from "./pages/seller_dashboard/WeatherAI";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 
@@ -46,6 +48,8 @@ function App() {
             <Route exact path="orders" element={<SellerOrderRequests />} />
             <Route exact path="faqs" element={<SellerFAQs />} />
             <Route exact path="cropsense-ai" element={<CropSenseAI />} />
+            <Route exact path="cropdisease-ai" element={<CropDiseaseAI />} />
+            <Route exact path="weather-ai" element={<WeatherAI />} />
           </Route>
 
           <Route exact path="/map/:latitude/:longitude" element={<ShowMap />} />
