@@ -16,6 +16,7 @@ const graph = require("./routes/graph.js");
 const ai = require("./routes/ai.js");
 const auth = require("./routes/auth");
 const contactRoute = require("./routes/contact.js");
+const paymentRoutes = require("./routes/paymentRoutes.js");
 
 const PORT = 8080;
 const app = express();
@@ -48,6 +49,7 @@ app.use("/faqs", faq);
 app.use("/graph", graph);
 app.use("/ai", ai);
 app.use("/api/stats", stats);
+app.use("/razorpay", paymentRoutes);
 
 server.listen(PORT, () => {
   console.log(`Server is running on PORT: ${PORT}`);

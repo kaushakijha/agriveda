@@ -1,28 +1,42 @@
 const Order = require("../models/orderSchema");
 const Product = require("../models/productSchema");
 const { getPlatformStatistics } = require("../services/statisticsService");
+const { createOrder } = require("../services/razorpayService");
 
 // Add Order
 const addOrder = async (req, res) => {
   try {
-    const { orders } = req.body;
+    const { orders, totalAmount } = req.body;
+    const userId = req.user?._id || req.body.userId;
 
     if (!Array.isArray(orders)) {
       return res.status(400).json({ error: "Orders must be an array" });
     }
 
+    if (!userId) {
+      return res.status(400).json({ error: "userId is required" });
+    }
+
+    // Create Razorpay order
+    const razorpayOrder = await createOrder(totalAmount);
+
+    // Add userId and Razorpay orderId to each order
+    const ordersWithUserId = orders.map(order => ({
+      ...order,
+      userId,
+      razorpayOrderId: razorpayOrder.id,
+    }));
+
     // Save orders
-    const savedOrders = await Order.insertMany(orders);
+    const savedOrders = await Order.insertMany(ordersWithUserId);
 
     // Update product stocks
-    for (const order of orders) {
-      for (const product of order.products) {
-        await Product.findByIdAndUpdate(
-          product.productId,
-          { $inc: { quantity: -product.quantity } },
-          { new: true }
-        );
-      }
+    for (const order of ordersWithUserId) {
+      await Product.findByIdAndUpdate(
+        order.productId,
+        { $inc: { quantity: -order.orderQty } },
+        { new: true }
+      );
     }
 
     // Get updated statistics
@@ -31,6 +45,7 @@ const addOrder = async (req, res) => {
     res.status(201).json({
       message: "Orders placed successfully",
       orders: savedOrders,
+      razorpayOrder,
       statistics,
     });
   } catch (error) {
