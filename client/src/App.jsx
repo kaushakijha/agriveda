@@ -30,6 +30,7 @@ import WeatherAI from "./pages/seller_dashboard/WeatherAI";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 import SettingsPage from "./pages/dropdownMenuUser/SettingsPage";
+import MyOrders from "./pages/dropdownMenuUser/MyOrders";
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/myorders" element={<MyOrders />} />
         </Routes>
         {/* </div> */}
       </Router>
