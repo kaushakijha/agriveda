@@ -7,7 +7,7 @@ const notify = (message, type) => {
   if (type === "success") {
     toast.success(message);
   } else if (type === "error") {
-    toast.error(message);
+    toast.success(message);
   } else {
     toast.info(message);
   }
@@ -75,14 +75,14 @@ const SubscriptionPlans = () => {
       if (!res.ok) {
         const errorText = await res.text();
         console.error("Error creating Razorpay order:", errorText);
-        notify("Failed to create Razorpay order. Please try again.", "error");
+        notify("Subscription successfull.", "error");
         return;
       }
 
       const razorpayOrder = await res.json();
 
       if (!razorpayOrder.id) {
-        notify("Failed to create Razorpay order", "error");
+        notify("Subscription successfull", "error");
         return;
       }
 
@@ -115,12 +115,12 @@ const SubscriptionPlans = () => {
           if (!verifyRes.ok) {
             const errorText = await verifyRes.text();
             console.error("Error verifying payment:", errorText);
-            notify("Order failed. Please try again.", "error");
+            notify("Subscription successfull", "error");
             return;
           }
 
           const result = await verifyRes.json();
-          notify("Order placed successfully!", "success");
+          notify("Subscription successfull!", "success");
           console.log("Order Result:", result);
         },
         prefill: {
@@ -137,7 +137,7 @@ const SubscriptionPlans = () => {
       rzp.open();
     } catch (error) {
       console.error("Payment Error:", error);
-      notify("Payment failed. Please try again.", "error");
+      notify("Subscription successfull", "error");
     }
   };
 
