@@ -31,6 +31,7 @@ import About from "./pages/about";
 import Contact from "./pages/contact";
 import SettingsPage from "./pages/dropdownMenuUser/SettingsPage";
 import MyOrders from "./pages/dropdownMenuUser/MyOrders";
+import SubscriptionPlans from "./pages/dropdownMenuUser/SubscriptionPage";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/myorders" element={<MyOrders />} />
+          <Route path="/subscription" element={<SubscriptionPlans />} />
         </Routes>
         {/* </div> */}
       </Router>

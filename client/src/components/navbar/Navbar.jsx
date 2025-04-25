@@ -99,14 +99,6 @@ function Navbar() {
                   <ul className="py-2 flex flex-col text-sm gap-1 text-gray-700">
                     <li
                       onClick={() => {
-                        navigate("/myprofile");
-                      }}
-                      className="hover:bg-gray-100 px-4 py-2 cursor-pointer rounded transition-colors"
-                    >
-                      My Profile
-                    </li>
-                    <li
-                      onClick={() => {
                         navigate("/myorders");
                       }}
                       className="hover:bg-gray-100 px-4 py-2 cursor-pointer rounded transition-colors"
@@ -120,6 +112,14 @@ function Navbar() {
                       className="hover:bg-gray-100 px-4 py-2 cursor-pointer rounded transition-colors"
                     >
                       Settings
+                    </li>
+                    <li
+                      onClick={() => {
+                        navigate("/subscription");
+                      }}
+                      className="hover:bg-gray-100 px-4 py-2 cursor-pointer rounded transition-colors"
+                    >
+                      Subscription Plans
                     </li>
                     <li
                       onClick={() => {

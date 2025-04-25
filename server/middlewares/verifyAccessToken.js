@@ -1,39 +1,42 @@
 const jwt = require("jsonwebtoken");
 
 const verifyAccessToken = async (req, res, next) => {
-  let access_token = req.headers.authorization;
-
-  if (!access_token) {
-    return res.status(401).send({ message: "Access token is required" });
-  }
-
-  access_token = access_token.split(" ")[1];
-
   try {
-    const decoded = jwt.verify(access_token, process.env.JWT_SECRET);
+    // Extract the token from the Authorization header
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).send({ message: "Access token is required" });
+    }
 
-    // This id can be seller or user id depending on the token
+    const accessToken = authHeader.split(" ")[1];
+
+    // Verify the token
+    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+
+    // Check if the token contains user or seller information
     if (decoded.user) {
-      req.userId = decoded.user;
+      req.userId = decoded.user; // Set user ID in the request object
     } else if (decoded.seller) {
-      req.sellerId = decoded.seller;
+      req.sellerId = decoded.seller; // Set seller ID in the request object
     } else {
       return res
         .status(403)
         .send({ message: "Invalid token, please login again" });
     }
 
+    // Proceed to the next middleware or route handler
     next();
   } catch (error) {
-    // console.log(error);
-
+    // Handle token expiration and other errors
     if (error.name === "TokenExpiredError") {
       return res
         .status(403)
         .send({ message: "Token expired, please login again" });
     }
 
-    return res.status(403).send({ message: "Invalid token, please login again" });
+    return res
+      .status(403)
+      .send({ message: "Invalid token, please login again" });
   }
 };
 

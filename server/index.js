@@ -4,8 +4,8 @@ const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
 require("dotenv").config();
-const stats = require("./routes/stats.js");
 
+const stats = require("./routes/stats.js");
 const { setupWebSocket } = require("./services/setupWebSocket");
 
 const product = require("./routes/product");
@@ -18,8 +18,9 @@ const auth = require("./routes/auth");
 const contactRoute = require("./routes/contact.js");
 const paymentRoutes = require("./routes/paymentRoutes.js");
 
+
 const PORT = 8080;
-const app = express();
+const app = express(); // Initialize the app here
 
 app.use(
   cors({
@@ -30,6 +31,7 @@ app.use(
 
 app.use(express.json());
 app.use("/api/contact", contactRoute);
+
 const server = http.createServer(app);
 const io = new Server(server);
 
