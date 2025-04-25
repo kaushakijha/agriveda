@@ -84,25 +84,43 @@ function Navbar() {
             <div
               ref={userDropdownRef}
               className="relative flex flex-row gap-1 justify-center items-center text-blue-700 cursor-pointer"
-              onMouseEnter={() => {
-                setShowUserDropdown(true);
-                setShowSellerDropdown(false);
-              }}
               onClick={() => {
                 if (!cookies.user_access_token) {
                   navigate("/account/user");
+                } else {
+                  setShowUserDropdown((prev) => !prev); // Toggle dropdown visibility
                 }
               }}
             >
               <FaUserCircle />
               <span className="text-sm font-medium hidden md:block">User</span>
-              {cookies.user_access_token && (
-                <div
-                  className={`absolute ${
-                    showUserDropdown ? "block" : "hidden"
-                  } top-8 right-0 z-50 font-medium bg-white rounded-lg shadow-md pl-1 md:pl-4 pr-2 md:pr-8 py-0 md:py-2`}
-                >
-                  <ul className="py-1 md:py-2 flex flex-col text-sm gap-2 text-gray-700 ">
+              {cookies.user_access_token && showUserDropdown && (
+                <div className="absolute top-10 right-0 z-50 w-48 bg-white rounded-lg shadow-lg border border-gray-200">
+                  <ul className="py-2 flex flex-col text-sm gap-1 text-gray-700">
+                    <li
+                      onClick={() => {
+                        navigate("/myprofile");
+                      }}
+                      className="hover:bg-gray-100 px-4 py-2 cursor-pointer rounded transition-colors"
+                    >
+                      My Profile
+                    </li>
+                    <li
+                      onClick={() => {
+                        navigate("/myorders");
+                      }}
+                      className="hover:bg-gray-100 px-4 py-2 cursor-pointer rounded transition-colors"
+                    >
+                      My Orders
+                    </li>
+                    <li
+                      onClick={() => {
+                        navigate("/settings");
+                      }}
+                      className="hover:bg-gray-100 px-4 py-2 cursor-pointer rounded transition-colors"
+                    >
+                      Settings
+                    </li>
                     <li
                       onClick={() => {
                         console.log("User log out clicked");
@@ -112,10 +130,9 @@ function Navbar() {
                         notify("User Logged Out", "info");
                         navigate("/");
                       }}
+                      className="hover:bg-gray-100 px-4 py-2 cursor-pointer rounded transition-colors text-red-600"
                     >
-                      <a className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  whitespace-nowrap">
-                        User Logout
-                      </a>
+                      Logout
                     </li>
                   </ul>
                 </div>
