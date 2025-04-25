@@ -29,6 +29,7 @@ import CropDiseaseAI from "./pages/seller_dashboard/CropDiseaseAI";
 import WeatherAI from "./pages/seller_dashboard/WeatherAI";
 import About from "./pages/about";
 import Contact from "./pages/contact";
+import SettingsPage from "./pages/dropdownMenuUser/SettingsPage";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
           <Route exact path="/map" element={<LeafletMap />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/settings" element={<SettingsPage />} />
         </Routes>
         {/* </div> */}
       </Router>
