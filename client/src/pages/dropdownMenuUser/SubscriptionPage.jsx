@@ -91,7 +91,7 @@ const SubscriptionPlans = () => {
         key: "rzp_test_kOG1WszxXtt6z0", // Replace with your Razorpay key
         amount: razorpayOrder.amount,
         currency: razorpayOrder.currency,
-        name: "CropConnect",
+        name: "AgriVeda",
         description: `Subscription Plan: ${plan.name}`,
         order_id: razorpayOrder.id,
         handler: async function (response) {
