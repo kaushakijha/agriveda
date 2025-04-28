@@ -32,12 +32,6 @@ const links = [
     path: "products",
   },
   {
-    text: "Your Orders",
-    icon: <PiShoppingBagOpenFill />,
-    renderComponent: <SellerOrderRequests />,
-    path: "orders",
-  },
-  {
     text: "Your FAQs",
     icon: <FaQq />,
     renderComponent: <SellerFAQs />,
