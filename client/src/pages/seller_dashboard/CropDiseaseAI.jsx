@@ -24,9 +24,13 @@ const CropDiseaseAI = () => {
       return;
     }
 
+    console.log("Selected Image: ", selectedImage);
+
     try {
       const formData = new FormData();
       formData.append("image", selectedImage);
+
+      console.log("FormData: ", formData);
 
       const response = await sendRequest(
         "/ai/disease",
@@ -35,6 +39,7 @@ const CropDiseaseAI = () => {
         { "Content-Type": "multipart/form-data" },
         false
       );
+      console.log("Response: ", response);
 
       setPrediction(response.data.message);
     } catch (error) {

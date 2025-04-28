@@ -68,7 +68,7 @@ const CropSenseAI = () => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 mb-2">Altitude (m)</label>
+                <label className="block text-gray-700 mb-2">Altitude(0 - 10)(km)</label>
                 <input
                   type="number"
                   name="altitude"
@@ -80,7 +80,7 @@ const CropSenseAI = () => {
               </div>
               <div>
                 <label className="block text-gray-700 mb-2">
-                  Temperature (°C)
+                  Temperature(-50 - 50)(°C)
                 </label>
                 <input
                   type="number"
@@ -92,7 +92,7 @@ const CropSenseAI = () => {
                 />
               </div>
               <div>
-                <label className="block text-gray-700 mb-2">Humidity (%)</label>
+                <label className="block text-gray-700 mb-2">Humidity(0 - 100)(%)</label>
                 <input
                   type="number"
                   name="humidity"
@@ -104,7 +104,7 @@ const CropSenseAI = () => {
               </div>
               <div>
                 <label className="block text-gray-700 mb-2">
-                  Rainfall (mm)
+                  Rainfall(0 - 1000)(mm)
                 </label>
                 <input
                   type="number"

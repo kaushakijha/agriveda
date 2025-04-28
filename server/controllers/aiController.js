@@ -8,6 +8,8 @@ const weatherServices = require("../services/weatherServices");
 const predictCrops = async (req, res) => {
   try {
     const { soil, altitude, temperature, humidity, rainfall } = req.query;
+    console.log("Incoming Query Params:", req.query); // 🛑 ADD THIS
+
 
     // Validate required parameters
     if (!soil || !altitude || !temperature || !humidity || !rainfall) {

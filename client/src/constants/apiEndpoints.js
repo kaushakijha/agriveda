@@ -43,14 +43,9 @@ export const VERIFY = (type, token) => `/${type}/verify/${token}`;
 export const ORDER_PRODUCT = `/order`;
 
 // CropSense AI
-export const CROP_PREDICTOR = (
-  soil,
-  altitude,
-  temperature,
-  humidity,
-  rainfall
-) =>
-  `/ai/crops?soil=${soil}&altitude=${altitude}&temperature=${temperature}&humidity=${humidity}&rainfall=${rainfall}`;
+export const CROP_PREDICTOR = (soil, altitude, temperature, humidity, rainfall) =>
+  `/ai/crop?soil=${soil}&altitude=${altitude}&temperature=${temperature}&humidity=${humidity}&rainfall=${rainfall}`;
+
 
 // Seller Graphs
 export const GRAPH = `/graph`;
